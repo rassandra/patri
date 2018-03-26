@@ -6,11 +6,12 @@ date_default_timezone_set('UTC');
 
 // include DB passwords
 require_once("pass.php");
+require_once("utils/utils.php");
 
 
-// connect to DB
-$conn = new PDO('mysql:host=localhost;dbname=andra_magazin_de_materiale', DB_USERNAME, DB_PASSWORD);
-$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+// connect to DB 
+// TODO schimba baza de date
+
 //$conn->setAttribute( PDO::ATTR_EMULATE_PREPARES, FALSE );
 
 // test insert
@@ -22,12 +23,19 @@ $conn->prepare("INSERT INTO `adminUsers` SET `username`=?, `password`=?")->execu
 */
 
 if ($_POST['username'] && $_POST['password']) {
-    $smt = $conn->prepare("SELECT * FROM `adminUsers` WHERE `username`=? AND `password`=?");
-    $smt->execute([
+    $result = DB::connect()->getRow("SELECT * FROM `adminUsers` WHERE `username`=? AND `password`=?", [
         $_POST['username'],
         md5($_POST['password']),
     ]);
-    if ($smt->fetchAll()) {
+
+    if ($result) {        
+        // TODO: salveaza id user, login time in sesiune
+
+        $_SESSION["id_user"] = $result['id'];
+        var_dump($_SESSION);
+
+        $_SESSION['data'] = date('Y-m-d H:i:s');
+        var_dump($_SESSION);
         // TODO: salvez in sesiune
         // TODO: redirect pt altceva
     }
@@ -39,5 +47,3 @@ if ($_POST['username'] && $_POST['password']) {
 else {
     require("display-auth.php");
 }
-
-
