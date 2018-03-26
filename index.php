@@ -1,8 +1,4 @@
 <?php
-// setup environment
-ini_set('display_errors', '1');
-error_reporting(E_ALL ^ E_NOTICE);
-date_default_timezone_set('UTC');
 
 // include DB passwords
 require_once("pass.php");
@@ -22,11 +18,14 @@ $conn->prepare("INSERT INTO `adminUsers` SET `username`=?, `password`=?")->execu
 ]);
 */
 
-if ($_POST['username'] && $_POST['password']) {
-    $result = DB::connect()->getRow("SELECT * FROM `adminUsers` WHERE `username`=? AND `password`=?", [
-        $_POST['username'],
+if ($_POST['email'] && $_POST['password']) {
+    $result = DB::connect()->getRow("SELECT * FROM `adminUsers` WHERE `email`=? AND `password`=?", [
+        $_POST['email'],
         md5($_POST['password']),
     ]);
+
+    $_SESSION["login_tries"]+=1;
+    // sleep(2 * $_SESSION["login_tries"]);
 
     if ($result) {        
         // TODO: salveaza id user, login time in sesiune
@@ -36,14 +35,13 @@ if ($_POST['username'] && $_POST['password']) {
 
         $_SESSION['data'] = date('Y-m-d H:i:s');
         var_dump($_SESSION);
-        // TODO: salvez in sesiune
         // TODO: redirect pt altceva
     }
     else {
-        $message = "Nu ati bagat username/paswword corect";
-        require("display-auth.php");    
+        $message = "Nu ati introdus email/paswword corect";
+        require("display-login.php");    
     }
 }
 else {
-    require("display-auth.php");
+    require("display-login.php");
 }

@@ -9,7 +9,7 @@ class DB {
 
     static function connect() {
         if (static::$connection===null) {
-            static::$connection = new PDOExtended('mysql:host=localhost;dbname=andra_magazin_de_materiale', DB_USERNAME, DB_PASSWORD);
+            static::$connection = new PDOExtended('mysql:host=localhost;dbname=andra_patri', DB_USERNAME, DB_PASSWORD);
             static::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
         }
 
@@ -31,6 +31,10 @@ class PDOExtended extends PDO {
     }
 }
 
+// setup environment
+ini_set('display_errors', '1');
+error_reporting(E_ALL ^ E_NOTICE);
+date_default_timezone_set('UTC');
 
 
 

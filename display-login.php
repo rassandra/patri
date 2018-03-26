@@ -19,7 +19,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="#">Admin MDM</a>
+        <a class="navbar-brand" href="#">Patri</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,17 +29,20 @@
     <!-- Page Content -->
     <div class="container">
       <div class="row">
-        <?=$message?>
         <form method="post" action="index.php" enctype="multipart/form-data">
           <div class="form-group">
-            <label for="InputUsername">Username</label>
-            <input type="text" class="form-control" id="InputUsername" name="username" placeholder="Enter username">
+            <label for="InputEmail">Email</label>
+            <input type="text" class="form-control" id="InputEmail" name="email" placeholder="Enter your email">
           </div>
           <div class="form-group">
             <label for="InputPassword">Password</label>
             <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
           </div>
-          <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+          <?php if($message) { ?>
+            <div class="p-2 mb-2 bg-danger text-white"><?=$message?></div>
+          <?php } ?>
+          <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
       </div>
     </div>
